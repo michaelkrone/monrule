@@ -95,7 +95,7 @@ test.cb('should emit an event on suceeded validation if I told her so', t => {
 	rr.register('test', {rule}).run(2, 1);
 });
 
-test.cb('should not emit at all if the emit option is set to false ', t => {
+test.cb('should not emit at all if the emit option is set to false', t => {
 	const rr = new Runner({emit: false});
 	const rule = (a, b) => false;
 	const elur = (a, b) => true;
@@ -111,5 +111,25 @@ test.cb('should not emit at all if the emit option is set to false ', t => {
 	
 	rr.register('false', {rule})
 		.register('true', {rule: elur})
+		.run(2, 1);
+});
+
+test.cb('should clear all rules and event registrations', t => {
+	const rr = new Runner();
+	const rule = (a, b) => false;
+	const elur = (a, b) => true;
+	const eventSpy = spy();
+
+    rr.on('false', eventSpy);
+	rr.on('true', eventSpy);
+		
+	setTimeout(() => {
+      t.false(eventSpy.called);
+      t.end();
+    });
+	
+	rr.register('false', {rule})
+		.register('true', {rule: elur})
+		.clear()
 		.run(2, 1);
 });
