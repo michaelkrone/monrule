@@ -4,7 +4,8 @@
   "description": "Rule validation report tool",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "node ./node_modules/ava/cli.js"
+    "test": "node ./node_modules/ava/cli.js",
+    "watch": "node ./node_modules/ava/cli.js --watch"
   },
   "ava": {
     "files": [
@@ -16,9 +17,21 @@
   "license": "ISC",
   "devDependencies": {
     "ava": "^0.12.0",
-    "mongoose": "^4.4.6"
+    "mongoose": "^4.4.6",
+    "sinon": "^1.17.3"
   },
   "dependencies": {
     "co": "^4.6.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelkrone/monrule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/michaelkrone/monrule/issues"
+  },
+  "homepage": "https://github.com/michaelkrone/monrule#readme"
 }
