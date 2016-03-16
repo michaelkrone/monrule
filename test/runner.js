@@ -126,7 +126,7 @@ test.cb('should not emit at all if the emit option is set to false', t => {
 		.run(2, 1);
 });
 
-test.cb('should clear all rules and event registrations', t => {
+test.cb('should clear all rules', t => {
 	const rr = new Runner();
 	const rule = (a, b) => false;
 	const elur = (a, b) => true;
