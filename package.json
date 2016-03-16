@@ -4,7 +4,7 @@
   "description": "Rule validation report tool",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "node ./node_modules/ava/cli.js",
+    "test": "nyc ./node_modules/ava/cli.js",
     "watch": "node ./node_modules/ava/cli.js --watch"
   },
   "ava": {
@@ -18,10 +18,12 @@
   "devDependencies": {
     "ava": "^0.12.0",
     "mongoose": "^4.4.6",
+    "nyc": "^6.1.1",
     "sinon": "^1.17.3"
   },
   "dependencies": {
-    "co": "^4.6.0"
+    "co": "^4.6.0",
+    "uuid-v4": "^0.1.0"
   },
   "directories": {
     "test": "test"
