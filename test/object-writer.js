@@ -28,8 +28,20 @@ test('should accept a function as event data', async t => {
 	t.true(m.object === 'test');
 });
 
+test('should accept a promise as event data', async t => {
+	let e = new ObjectWriter();
+	let m = await e.write(() => new Promise((r, e) => r('test')), 'data');	
+	t.true(m.object === 'test');
+});
+
 test('should accept a function as id', async t => {
 	let e = new ObjectWriter();
 	let m = await e.write('data', () => 'test');	
+	t.true(m.id === 'test');
+});
+
+test('should accept a promise as id', async t => {
+	let e = new ObjectWriter();
+	let m = await e.write('data', () => new Promise((r, e) => r('test')));	
 	t.true(m.id === 'test');
 });
