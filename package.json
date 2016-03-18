@@ -22,8 +22,7 @@
     "sinon": "^1.17.3"
   },
   "dependencies": {
-    "co": "^4.6.0",
-    "uuid-v4": "^0.1.0"
+    "co": "^4.6.0"
   },
   "directories": {
     "test": "test"

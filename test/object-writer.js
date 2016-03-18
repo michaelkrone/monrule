@@ -8,40 +8,30 @@ test.cb.before(t => {
 	mongoose.connect('mongodb://127.0.0.1/monrule', t.end);
 });
 
-test('should write an event into the database', async t => {
-	let e = new ObjectWriter();
-	let m = await e.write('data', 'data');
-	t.is(m.object, 'data');
-	t.is(m.id, 'data');
-});
-
-test('should generate an id if none is given', async t => {
-	let e = new ObjectWriter();
+test('should write into the database', async t => {
+	let e = new ObjectWriter({mongoose});
 	let m = await e.write('data');
-	t.is(m.object, 'data');	
-	t.true(typeof m.id === 'string');
+	t.is(m.data, 'data');
 });
 
-test('should accept a function as event data', async t => {
-	let e = new ObjectWriter();
-	let m = await e.write(() => 'test', 'data');	
-	t.true(m.object === 'test');
+test('should accept a function as document data', async t => {
+	const o = {a: 1, b: 'string'};
+	let e = new ObjectWriter({mongoose});
+	let m = await e.write(() => o);
+	t.same(m.data, o);
 });
 
-test('should accept a promise as event data', async t => {
-	let e = new ObjectWriter();
-	let m = await e.write(() => new Promise((r, e) => r('test')), 'data');	
-	t.true(m.object === 'test');
+test('should accept a promise as document data', async t => {
+	let e = new ObjectWriter({mongoose});
+	let m = await e.write(() => new Promise((r, e) => r('test')));	
+	t.same(m.data, 'test');
 });
 
-test('should accept a function as id', async t => {
-	let e = new ObjectWriter();
-	let m = await e.write('data', () => 'test');	
-	t.true(m.id === 'test');
-});
-
-test('should accept a promise as id', async t => {
-	let e = new ObjectWriter();
-	let m = await e.write('data', () => new Promise((r, e) => r('test')));	
-	t.true(m.id === 'test');
+test('should take a model to write into the database', async t => {
+	const model = mongoose.model('SaltyBucket', new mongoose.Schema({s: String, n: Number}));
+	let o = {s: 'a', n: 1};
+	let e = new ObjectWriter(model);
+	let m = await e.write(o);
+	t.same(m.s, o.s);
+	t.same(m.n, o.n);
 });
