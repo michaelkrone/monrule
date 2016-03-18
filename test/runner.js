@@ -44,7 +44,7 @@ test('should register and iterate the rules', async t => {
 	rr.register(rule, {rule})
 		.register(elur, {rule: elur});
 
-	for (let p of rr.iterate(1, 2)) {
+	for (let p of rr.iterator(1, 2)) {
 		let r = await p;
 		if (r === rule) {
 			t.false(r.result);
@@ -55,7 +55,7 @@ test('should register and iterate the rules', async t => {
 		}
 	}
 
-	for (let p of rr.iterate(2, 1)) {
+	for (let p of rr.iterator(2, 1)) {
 		let r = await p;
 		if (r === rule) {
 			t.true(r.result);
