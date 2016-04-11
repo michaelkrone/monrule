@@ -4,8 +4,9 @@
   "description": "Rule validation report tool",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "nyc ./node_modules/ava/cli.js",
-    "watch": "node ./node_modules/ava/cli.js --watch"
+    "test": "nyc ./node_modules/ava/cli.js -v",
+    "watch": "node ./node_modules/ava/cli.js --watch",
+    "report": "nyc ./node_modules/ava/cli.js --reporter=html"
   },
   "ava": {
     "files": [
@@ -18,11 +19,12 @@
   "devDependencies": {
     "ava": "^0.12.0",
     "mongoose": "^4.4.6",
-    "nyc": "^6.1.1",
+    "nyc": "^6.2.1",
     "sinon": "^1.17.3"
   },
   "dependencies": {
-    "co": "^4.6.0"
+    "co": "^4.6.0",
+    "object-hash": "^1.1.2"
   },
   "directories": {
     "test": "test"

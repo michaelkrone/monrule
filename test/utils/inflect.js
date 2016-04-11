@@ -1,7 +1,7 @@
 'use strict';
 
 import test from 'ava';
-import {inflect} from '../lib/utils';
+import {inflect} from '../../lib/utils';
 
 test.beforeEach(t => {
 	t.context.theObject = {unique: true, awesome: () => {}};
@@ -44,13 +44,13 @@ test('should have set the proper values', t => {
 	t.same(t.context.remapped.object, t.context.theObject);
 });
 
-test('should return the object when no map is given', t => {
+test('should do nothing when no map is given', t => {
 	const obj = {a: 1};
 	inflect(obj, undefined)
 	t.ok(obj.a);
 });
 
-test('should return the object on an empty map', t => {
+test('should do nothing on an empty map', t => {
 	const obj = {a: 1};
 	inflect(obj, Object.create(null));
 	t.ok(obj.a);
