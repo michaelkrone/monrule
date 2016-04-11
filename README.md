@@ -1,5 +1,5 @@
 # monrule
-A simple cache to persist expensive function results.
+A simple cache to persist expensive function results in a mongodb database.
 
 ```js
 const Cache = require('monrule').FunctionCache;
