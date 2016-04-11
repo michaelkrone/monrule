@@ -29,6 +29,28 @@ test('should cache a function', async t => {
 	t.same(await c.get(), await c.get());
 });
 
+test('should create a sensible ids for the arguments of the cached function', async t => {
+	const r = (a, b) => true;
+	const namespace = 'stored-objects';
+	const c = new FunctionCache(r, {namespace});
+	
+	let id1 = c.getId([1, 2]);
+	let id2 = c.getId([2, 1]);
+	t.false(id1 === id2);
+
+	id1 = c.getId([{a: 1, b: 2}]);
+	id2 = c.getId([{a: 2, b: 1}]);
+	t.false(id1 === id2);
+
+	id1 = c.getId([{a: 1, b: 2}]);
+	id2 = c.getId([{a: 1, b: 2}]);
+	t.true(id1 === id2);
+	
+	id1 = c.getId([{a: 1, b: 2}]);
+	id2 = c.getId([{b: 2, a: 1}]);
+	t.true(id1 === id2);
+});
+
 test('should clear all stored objects', async t => {
 	const r = () => true;
 	const namespace = 'stored-objects';
@@ -39,4 +61,16 @@ test('should clear all stored objects', async t => {
 
 	let stringArg = '' + c.store.model.remove.getCall(0).args[0].id;
 	t.true(stringArg.indexOf(namespace) > -1);
+});
+
+test('should invalidate the cache with a query', async t => {
+	const r = () => true;
+	const namespace = 'stored-objects';
+	const c = new FunctionCache(r, {namespace});
+
+	c.store.model.remove = spy();
+	c.invalidate({id: 'test'});
+
+	let stringArg = '' + c.store.model.remove.getCall(0).args[0].id;
+	t.true(stringArg.indexOf('test') > -1);
 });
