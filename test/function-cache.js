@@ -29,25 +29,38 @@ test('should cache a function', async t => {
 	t.same(await c.get(), await c.get());
 });
 
-test('should create a sensible ids for the arguments of the cached function', async t => {
+test('should provide a simple cache wrapper function', async t => {
+	const r = spy();
+	const c = new FunctionCache(r);
+	const f = c.getWrapper();
+	
+	await f(1, 2);
+	await f(1, 2);
+	t.true(r.calledOnce);
+	
+	await f(1, 1);
+	await f(1, 1);
+	t.true(r.calledTwice);
+	
+	await f(1, '1');
+	t.true(r.calledThrice);
+});
+
+test('should create sensible ids for the arguments of the cached function', async t => {
 	const r = (a, b) => true;
 	const namespace = 'stored-objects';
 	const c = new FunctionCache(r, {namespace});
 	
-	let id1 = c.getId([1, 2]);
-	let id2 = c.getId([2, 1]);
+	let id1 = c.getId(1, 2);
+	let id2 = c.getId(2, 1);
 	t.false(id1 === id2);
 
 	id1 = c.getId([{a: 1, b: 2}]);
 	id2 = c.getId([{a: 2, b: 1}]);
 	t.false(id1 === id2);
 
-	id1 = c.getId([{a: 1, b: 2}]);
-	id2 = c.getId([{a: 1, b: 2}]);
-	t.true(id1 === id2);
-	
-	id1 = c.getId([{a: 1, b: 2}]);
-	id2 = c.getId([{b: 2, a: 1}]);
+	id1 = c.getId({a: 1, b: 2});
+	id2 = c.getId({a: 1, b: 2});
 	t.true(id1 === id2);
 });
 
