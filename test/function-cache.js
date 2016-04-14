@@ -1,22 +1,27 @@
 'use strict';
 
 import test from 'ava';
-import {spy} from 'sinon';
+import {spy, stub} from 'sinon';
 import mongoose from 'mongoose';
 import {FunctionCache} from '../lib';
 
-test.cb.before(t => {
-	mongoose.connect('mongodb://127.0.0.1/monrule', t.end);
+const opts = {mongoose, modelName: 'FunctionCacheTest'};
+
+test.cb.before('connect to database, try to remove leftovers from previous runs', t => {
+	mongoose.connect('mongodb://127.0.0.1/monrule', () => {
+		try {
+			mongoose.model(opts.modelName).remove({}, t.end);
+		} catch (e) {}
+	});
 });
 
-test.cb.after(t => {
-	const c = new FunctionCache(() => null, {mongoose});
-	c.store.model.remove({}, t.end);
+test.cb.after('cleanup databse', t => {
+	mongoose.model(opts.modelName).remove({}, t.end);
 });
 
 test('should only work with valid arguments', t => {
 	t.throws(() => new FunctionCache());
-	t.throws(() => new FunctionCache({}, {mongoose}));
+	t.throws(() => new FunctionCache({}, opts));
 });
 
 test('should accept a function', t => {
@@ -25,13 +30,15 @@ test('should accept a function', t => {
 
 test('should cache a function', async t => {
 	const r = Math.random;
-	const c = new FunctionCache(r);
+	const c = new FunctionCache(r, opts);
 	t.same(await c.get(), await c.get());
 });
 
 test('should provide a simple cache wrapper function', async t => {
-	const r = spy();
-	const c = new FunctionCache(r);
+	const r = stub();
+	r.returns(1);
+
+	const c = new FunctionCache(r, opts);
 	const f = c.getWrapper();
 	
 	await f(1, 2);
@@ -43,13 +50,14 @@ test('should provide a simple cache wrapper function', async t => {
 	t.true(r.calledTwice);
 	
 	await f(1, '1');
+	await f(1, '1');
 	t.true(r.calledThrice);
 });
 
 test('should create sensible ids for the arguments of the cached function', async t => {
 	const r = (a, b) => true;
-	const namespace = 'stored-objects';
-	const c = new FunctionCache(r, {namespace});
+	const o = {namespace: 'stored-objects', mongoose, modelName: 'FunctionCacheTest'};
+	const c = new FunctionCache(r, o);
 	
 	let id1 = c.getId(1, 2);
 	let id2 = c.getId(2, 1);
@@ -67,7 +75,8 @@ test('should create sensible ids for the arguments of the cached function', asyn
 test('should clear all stored objects', async t => {
 	const r = () => true;
 	const namespace = 'stored-objects';
-	const c = new FunctionCache(r, {namespace});
+	const o = {namespace, mongoose, modelName: 'FunctionCacheTest'};
+	const c = new FunctionCache(r, o);
 
 	c.store.model.remove = spy();
 	c.clear();
@@ -78,8 +87,8 @@ test('should clear all stored objects', async t => {
 
 test('should invalidate the cache with a query', async t => {
 	const r = () => true;
-	const namespace = 'stored-objects';
-	const c = new FunctionCache(r, {namespace});
+	const o = {namespace: 'stored-objects', mongoose, modelName: 'FunctionCacheTest'};
+	const c = new FunctionCache(r, o);
 
 	c.store.model.remove = spy();
 	c.invalidate({id: 'test'});

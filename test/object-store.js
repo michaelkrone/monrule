@@ -6,11 +6,11 @@ import {ObjectStore} from '../lib';
 
 const options = {mongoose, modelName: 'ObjectStoreTest'};
 
-test.cb.before(t => {
+test.cb.before('connect to database', t => {
 	mongoose.connect('mongodb://127.0.0.1/monrule', t.end);
 });
 
-test.cb.after(t => {
+test.cb.after('cleanup database', t => {
  	const o = new ObjectStore(options);
 	o.model.remove({}, t.end);
 });
