@@ -23,27 +23,27 @@ test('should only work with valid arguments', t => {
 test('should write into the database', async t => {
 	let e = new ObjectStore(options);
 	let m = await e.set(1, 'data');
-	t.is(m.data, 'data');
+	t.is(m, 'data');
 });
 
 test('should accept a function as document data', async t => {
 	const o = {a: 1, b: 'string'};
 	let e = new ObjectStore(options);
 	let m = await e.set('object', () => o);
-	t.same(m.data, o);
+	t.same(m, o);
 });
 
 test('should accept a function as id', async t => {
 	const o ='object';
 	let e = new ObjectStore(options);
 	let m = await e.set(() => 'id', 'object');
-	t.same(m.data, o);
+	t.same(m, o);
 });
 
 test('should accept a promise as document data', async t => {
 	let e = new ObjectStore(options);
 	let m = await e.set('test', () => new Promise((r, e) => r('test')));	
-	t.same(m.data, 'test');
+	t.same(m, 'test');
 });
 
 test('should find the created documents', async t => {
@@ -51,10 +51,10 @@ test('should find the created documents', async t => {
 	const o = {a: 1, b: 'string'};
 	let e = new ObjectStore(options);
 	let m = await e.set(id, o);
-	t.same(m.data, o);
+	t.same(m, o);
 	
 	let d = await e.get(id);
-	t.same(d.data, o);
+	t.same(d, o);
 });
 
 test('should find the created documents with an id function', async t => {
@@ -64,7 +64,7 @@ test('should find the created documents with an id function', async t => {
 	
 	await e.set(f, o);
 	let d = await e.get(f);
-	t.same(d.data, o);
+	t.same(d, o);
 });
 
 test('should find the created documents with an id promise', async t => {
@@ -75,7 +75,7 @@ test('should find the created documents with an id promise', async t => {
 	
 	await e.set(f, o);
 	let d = await e.get(f);
-	t.same(d.data, o);
+	t.same(d, o);
 });
 
 
@@ -112,7 +112,7 @@ test('should provide a map like `has` method', async t => {
 	await e.set(f, o);
 	let d = await e.get(f);
 	
-	t.same(d.data, o);
+	t.same(d, o);
 	t.ok(await e.has(f));
 	
 	await e.delete(f);

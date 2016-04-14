@@ -9,14 +9,13 @@ const opts = {mongoose, modelName: 'FunctionCacheTest'};
 
 test.cb.before('connect to database, try to remove leftovers from previous runs', t => {
 	mongoose.connect('mongodb://127.0.0.1/monrule', () => {
-		try {
-			mongoose.model(opts.modelName).remove({}, t.end);
-		} catch (e) {}
+		mongoose.model(opts.modelName, new mongoose.Schema())
+			.remove({}, () => {t.end()});
 	});
 });
 
 test.cb.after('cleanup databse', t => {
-	mongoose.model(opts.modelName).remove({}, t.end);
+	mongoose.model(opts.modelName).remove({}, () => {t.end()});
 });
 
 test('should only work with valid arguments', t => {
@@ -29,9 +28,11 @@ test('should accept a function', t => {
 });
 
 test('should cache a function', async t => {
-	const r = Math.random;
+	const r = (a) => a + Math.random();
 	const c = new FunctionCache(r, opts);
-	t.same(await c.get(), await c.get());
+	let a = await c.get(1);
+	let b = await c.get(1);
+	t.same(a, b);
 });
 
 test('should provide a simple cache wrapper function', async t => {
