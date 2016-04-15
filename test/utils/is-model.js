@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import {isModel} from '../../lib/utils';
 
 test('should export a function', t => {
-	t.ok(typeof isModel === 'function');
+	t.true(typeof isModel === 'function');
 });
 
 test('should identify a mongoose model', t => {

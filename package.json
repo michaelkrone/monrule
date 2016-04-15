@@ -6,7 +6,8 @@
   "scripts": {
     "test": "nyc ./node_modules/ava/cli.js",
     "watch": "NODE_DEBUG=cache,store node ./node_modules/ava/cli.js --watch",
-    "report": "nyc ./node_modules/ava/cli.js --reporter=html"
+    "report": "nyc ./node_modules/ava/cli.js --reporter=html",
+	"lint": "./node_modules/xo/cli.js"
   },
   "ava": {
     "files": [
@@ -20,11 +21,14 @@
     "ava": "^0.12.0",
     "mongoose": "^4.4.6",
     "nyc": "^6.2.1",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "xo": "^0.14.0"
   },
   "dependencies": {
+    "ava": "^0.14.0",
     "co": "^4.6.0",
-    "farmhash": "^1.1.1"
+    "farmhash": "^1.1.1",
+    "mongodb": "^2.1.16"
   },
   "directories": {
     "test": "test"
