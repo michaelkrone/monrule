@@ -10,6 +10,13 @@ function calculate(a, b) {
 };
 
 let c = new Cache(calculate);
-c.get(1, 2); // calculating ... => 3
-c.get(1, 2); // => 3
+let f = c.getWrapper();
+
+f(1, 2); // or c.get(1, 2): calculating ... => 3
+f(1, 2); // => 3
+
+c.clear(); // clear all cached results
+c.invalidate(...); // invalidate cache results based on a query
+
+// more docs to come
 ```
