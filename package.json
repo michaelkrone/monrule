@@ -4,10 +4,11 @@
   "description": "A simple cache to persist expensive function results",
   "main": "./lib/index.js",
   "scripts": {
+    "pretest": "npm run lint",
     "test": "nyc ./node_modules/ava/cli.js",
     "watch": "NODE_DEBUG=cache,store node ./node_modules/ava/cli.js --watch",
     "report": "nyc ./node_modules/ava/cli.js --reporter=html",
-	"lint": "./node_modules/xo/cli.js"
+    "lint": "./node_modules/xo/cli.js"
   },
   "ava": {
     "files": [
@@ -27,8 +28,7 @@
   "dependencies": {
     "ava": "^0.14.0",
     "co": "^4.6.0",
-    "farmhash": "^1.1.1",
-    "mongodb": "^2.1.16"
+    "object-hash": "^1.1.2"
   },
   "directories": {
     "test": "test"
