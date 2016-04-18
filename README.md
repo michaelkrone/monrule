@@ -17,6 +17,6 @@ f(1, 2); // => 3
 
 c.clear(); // clear all cached results
 c.invalidate(...); // invalidate cache results based on a query
-
-// more docs to come
 ```
+
+More docs to come

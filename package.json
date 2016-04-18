@@ -19,7 +19,7 @@
   "author": "Michael Krone <michael.krone@outlook.com>",
   "license": "ISC",
   "devDependencies": {
-    "ava": "^0.12.0",
+    "ava": "^0.14.0",
     "mongoose": "^4.4.6",
     "nyc": "^6.2.1",
     "sinon": "^1.17.3",
