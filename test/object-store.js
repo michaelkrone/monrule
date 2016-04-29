@@ -46,6 +46,14 @@ test('should accept a promise as document data', async t => {
 	t.is(m, 'test');
 });
 
+test('should save empty objects as those', async t => {
+	const o = {a: {}, b: {c: {}}};
+	let e = new ObjectStore(options);
+	await e.set('empty', o);
+	let m = await e.get('empty');
+	t.deepEqual(m, o);
+});
+
 test('should find the created documents', async t => {
 	const id = 'static';
 	const o = {a: 1, b: 'string'};
