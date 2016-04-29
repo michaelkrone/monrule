@@ -1,6 +1,6 @@
 {
   "name": "monrule",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A simple cache to persist expensive function results",
   "main": "./lib/index.js",
   "scripts": {
@@ -39,5 +39,6 @@
   "bugs": {
     "url": "https://github.com/michaelkrone/monrule/issues"
   },
-  "homepage": "https://github.com/michaelkrone/monrule#readme"
+  "homepage": "https://github.com/michaelkrone/monrule#readme",
+  "keywords": ["cache", "function", "result", "database", "cache function call", "mongoose"]
 }
