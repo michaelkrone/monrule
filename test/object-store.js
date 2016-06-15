@@ -54,6 +54,15 @@ test('should save empty objects as those', async t => {
 	t.deepEqual(m, o);
 });
 
+test('should save objects without saveWrite', async t => {
+	const o = {a: {}, b: {c: {}}};
+	const saveWriteOptions = Object.assign({saveWrite: false}, options);
+	let e = new ObjectStore(saveWriteOptions);
+	await e.set('save', o);
+	let m = await e.get('save');
+	t.deepEqual(m, o);
+});
+
 test('should find the created documents', async t => {
 	const id = 'static';
 	const o = {a: 1, b: 'string'};
