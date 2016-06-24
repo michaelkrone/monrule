@@ -13,7 +13,7 @@ let getFibonacci = cache.getWrapper();
 // fills the cache
 getFibonacci(10000).then(result => ...); // 1 - 10 seconds
 // reads from the cache
-getFibonacci(100000).then(result => ...);; // 1 - 10 milliseconds
+getFibonacci(10000).then(result => ...);; // 1 - 10 milliseconds
 	
 // promise, invalidate cache results based on a query
 c.invalidate({data.number: 13});
