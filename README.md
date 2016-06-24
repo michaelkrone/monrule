@@ -138,7 +138,7 @@ fCache.delete(1).then(...);
 ### `Promise has(String id)`
 Map interface method, check if an entry with the given id exists.
 ```js
-fCache.has(id).then(b => b === true || b === false);configurable
+fCache.has(id).then(b => b === true || b === false);
 ```
 
 ### Todo
