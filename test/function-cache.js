@@ -107,3 +107,27 @@ test('should invalidate the cache with a query', async t => {
 	await c.get();
 	t.true(r.callCount <= 2);
 });
+
+test('should invalidate the cache within its namespace', async t => {
+	const r1 = stub();
+	const r2 = stub();
+	r1.returns({prop: 'value'});
+	r2.returns({prop: 'value'});
+
+	const o1 = {namespace: 'stored-objects', mongoose, modelName: 'FunctionCacheTest'};
+	const c1 = new FunctionCache(r1, o1);
+
+	const o2 = {namespace: 'different-namespace', mongoose, modelName: 'FunctionCacheTest'};
+	const c2 = new FunctionCache(r2, o2);
+
+	await c1.get();
+	await c1.get();
+	await c2.get();
+	await c2.get();
+	await c1.invalidate({'data.prop': 'value'});
+
+	await c1.get();
+	t.true(r1.callCount <= 2);
+	await c2.get();
+	t.true(r2.callCount === 1);
+});
