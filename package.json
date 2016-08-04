@@ -1,6 +1,6 @@
 {
   "name": "monrule",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "A simple cache to persist expensive function results",
   "main": "./lib/index.js",
   "scripts": {
