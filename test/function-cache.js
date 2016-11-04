@@ -102,10 +102,23 @@ test('should invalidate the cache with a query', async t => {
 
 	await c.get();
 	await c.get();
-	await c.invalidate({'data.prop': 'value'});
+	let res = await c.invalidate({'data.prop': 'value'});
+	t.truthy(res.result.ok);
 
 	await c.get();
 	t.true(r.callCount <= 2);
+});
+
+test.cb('should return a promise when called invalidate', t => {
+	const r = stub();
+	r.returns({prop: 'value'});
+
+	const o = {namespace: 'stored-objects', mongoose, modelName: 'FunctionCacheTest'};
+	const c = new FunctionCache(r, o);
+	c.invalidate({'data.prop': 'value'}).then(res => {
+		t.truthy(res.result.ok);
+		t.end();
+	});
 });
 
 test('should invalidate the cache within its namespace', async t => {
