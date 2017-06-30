@@ -1,6 +1,6 @@
 {
   "name": "monrule",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple cache to persist expensive function results",
   "main": "./lib/index.js",
   "scripts": {
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "co": "^4.6.0",
+    "mongoose-timestamp-plugin": "0.0.1",
     "object-hash": "^1.1.2"
   },
   "directories": {
@@ -40,5 +41,12 @@
     "url": "https://github.com/michaelkrone/monrule/issues"
   },
   "homepage": "https://github.com/michaelkrone/monrule#readme",
-  "keywords": ["cache", "function", "result", "database", "cache function call", "mongoose"]
+  "keywords": [
+    "cache",
+    "function",
+    "result",
+    "database",
+    "cache function call",
+    "mongoose"
+  ]
 }
